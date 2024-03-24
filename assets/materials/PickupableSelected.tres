@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/Outline.gdshader" id="1_x74ay"]
+[ext_resource type="Shader" path="res://assets/shaders/Scrolling.gdshader" id="2_c2ory"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j8jiq"]
+render_priority = 1
+shader = ExtResource("2_c2ory")
+shader_parameter/speed = 1.0
+shader_parameter/ring_scale = 1.0
+shader_parameter/wave_scale = 1.5
+shader_parameter/random_scale = 2.0
+shader_parameter/noise_scale = 0.186
+
+[resource]
+render_priority = 127
+next_pass = SubResource("ShaderMaterial_j8jiq")
+shader = ExtResource("1_x74ay")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/luma_coef = 0.1
+shader_parameter/color_coef = 0.1
+shader_parameter/depth_coef = 5.0
+shader_parameter/cutoff = 3.0

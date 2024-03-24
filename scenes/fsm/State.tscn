@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdtye44r2ap3n"]
+
+[ext_resource type="Script" path="res://scenes/fsm/State.cs" id="1_ufkbh"]
+
+[node name="State" type="Node"]
+script = ExtResource("1_ufkbh")

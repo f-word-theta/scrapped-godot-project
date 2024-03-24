@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddi0xppouubkw"]
+
+[ext_resource type="Script" path="res://scenes/managers/PlayerWeaponManager.cs" id="1_w2yxp"]
+
+[node name="PlayerWeaponManager" type="Node"]
+script = ExtResource("1_w2yxp")

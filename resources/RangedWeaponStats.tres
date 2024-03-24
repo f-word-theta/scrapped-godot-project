@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RangedWeaponStats" load_steps=2 format=3 uid="uid://dim61eahg8n5w"]
+
+[ext_resource type="Script" path="res://resources/RangedWeaponStats.cs" id="1_p7wym"]
+
+[resource]
+script = ExtResource("1_p7wym")
+MaxAmmo = 0
+Range = 0.0
+Damage = 0.0

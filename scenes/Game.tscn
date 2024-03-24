@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://b77gacsxyqa75"]
+
+[ext_resource type="PackedScene" uid="uid://dsf2g0sv6cx8l" path="res://scenes/ui/PauseScreenUI.tscn" id="1_bpkip"]
+[ext_resource type="PackedScene" uid="uid://drejdbpv1uf0i" path="res://scenes/maps/Baseplate.tscn" id="3_24qs3"]
+[ext_resource type="PackedScene" uid="uid://c6hg3d4gxs053" path="res://scenes/entities/PlayerEntity.tscn" id="3_pmuvs"]
+
+[node name="Game" type="Node3D"]
+
+[node name="PauseScreenUI" parent="." instance=ExtResource("1_bpkip")]
+visible = false
+
+[node name="PlayerEntity" parent="." instance=ExtResource("3_pmuvs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.9346, 3.82388, 0.32482)
+
+[node name="Baseplate" parent="." instance=ExtResource("3_24qs3")]

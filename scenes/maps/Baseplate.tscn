@@ -1,0 +1,175 @@
+[gd_scene load_steps=6 format=3 uid="uid://drejdbpv1uf0i"]
+
+[ext_resource type="PackedScene" uid="uid://cn13pk5kwsiva" path="res://addons/kenney_prototype_tools/scenes/dark/dark_01.tscn" id="1_2gqd2"]
+[ext_resource type="PackedScene" uid="uid://crn48xnwwo1ux" path="res://scenes/entities/ImpEntity.tscn" id="2_085xv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kdljq"]
+size = Vector3(20, 5, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e3u13"]
+size = Vector3(1028, 1, 1028)
+
+[sub_resource type="Environment" id="Environment_ri4hu"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.1
+tonemap_mode = 3
+ssao_enabled = true
+ssao_radius = 1.51
+ssao_intensity = 7.12
+ssao_power = 2.61165
+
+[node name="Baseplate" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.81556, 47.4967, -11.33)
+visible = false
+collision_mask = 17
+
+[node name="Cube" parent="StaticBody3D" instance=ExtResource("1_2gqd2")]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.5, 15)
+shape = SubResource("BoxShape3D_kdljq")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.7461, 47.4967, -11.33)
+visible = false
+
+[node name="Cube" parent="StaticBody3D2" instance=ExtResource("1_2gqd2")]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.5, 15)
+shape = SubResource("BoxShape3D_kdljq")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -22.3661, 47.4967, -11.33)
+visible = false
+
+[node name="Cube" parent="StaticBody3D3" instance=ExtResource("1_2gqd2")]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.5, 15)
+shape = SubResource("BoxShape3D_kdljq")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -22.3661, -0.631422, 36.8755)
+
+[node name="Cube" parent="StaticBody3D4" instance=ExtResource("1_2gqd2")]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2.5, 15)
+shape = SubResource("BoxShape3D_kdljq")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="Cube" parent="Floor" instance=ExtResource("1_2gqd2")]
+transform = Transform3D(1028, 0, 0, 0, 1, 0, 0, 0, 1028, -514, -0.5, -514)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_e3u13")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ri4hu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.831188, 0.00118386, 0.55599, -0.555991, 0.00176983, 0.831186, 0, -0.999998, 0.00212928, 0, 2.46612, 0)
+light_energy = 0.868
+light_cull_mask = 4294967293
+shadow_enabled = true
+shadow_blur = 0.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -6.4864, 11.779, -1.71715)
+visible = false
+layers = 3
+light_energy = 5.513
+shadow_blur = 0.0
+spot_range = 32.438
+spot_attenuation = 0.148651
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.160295, 0.987069, 0, -0.987069, 0.160295, -6.17122, 11.779, 5.85454)
+visible = false
+layers = 3
+light_energy = 5.513
+shadow_blur = 0.0
+spot_range = 32.438
+spot_attenuation = 0.148651
+spot_angle = 74.33
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.207041, 0.978332, 0, -0.978332, -0.207041, -6.17122, 11.779, -9.27347)
+visible = false
+layers = 3
+light_energy = 5.513
+shadow_blur = 0.0
+spot_range = 32.438
+spot_attenuation = 0.148651
+spot_angle = 74.33
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="."]
+transform = Transform3D(0.984202, 7.7391e-09, -0.17705, 0.17705, -4.30208e-08, 0.984202, 0, -1, -4.37114e-08, -17.3861, 11.779, -0.5697)
+visible = false
+layers = 3
+light_energy = 5.513
+shadow_blur = 0.0
+spot_range = 32.438
+spot_attenuation = 0.148651
+spot_angle = 74.33
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="."]
+transform = Transform3D(0.982532, -8.13446e-09, 0.186095, -0.186095, -4.29478e-08, 0.982532, 0, -1, -4.37114e-08, -0.847667, 11.779, -0.5697)
+visible = false
+layers = 3
+light_energy = 5.513
+shadow_blur = 0.0
+spot_range = 32.438
+spot_attenuation = 0.148651
+spot_angle = 74.33
+
+[node name="ImpEntity" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5407, 0.5, 1.71022)
+
+[node name="ImpEntity2" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50318, 0.5, 12.5594)
+
+[node name="ImpEntity3" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.22705, 0.5, -5.28467)
+
+[node name="ImpEntity4" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.7113, 0.5, 7.20182)
+
+[node name="ImpEntity5" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73524, 0.5, 6.06707)
+
+[node name="ImpEntity6" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.9151, 0.5, -5.40376)
+
+[node name="ImpEntity7" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.88373, 0.499999, 6.2751)
+
+[node name="ImpEntity8" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.8814, 0.5, 18.1581)
+
+[node name="ImpEntity9" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.8439, 0.5, 29.0073)
+
+[node name="ImpEntity10" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.5678, 0.5, 11.1632)
+
+[node name="ImpEntity11" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.052, 0.5, 23.6497)
+
+[node name="ImpEntity12" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.076, 0.5, 22.515)
+
+[node name="ImpEntity13" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2558, 0.5, 11.0441)
+
+[node name="ImpEntity14" parent="." instance=ExtResource("2_085xv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2245, 0.499999, 22.723)

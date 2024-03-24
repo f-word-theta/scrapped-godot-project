@@ -1,0 +1,698 @@
+[gd_scene load_steps=50 format=3 uid="uid://c6hg3d4gxs053"]
+
+[ext_resource type="Script" path="res://scenes/entities/PlayerEntity.cs" id="1_gvphs"]
+[ext_resource type="PackedScene" path="res://scenes/components/HealthComponent.tscn" id="2_xioc4"]
+[ext_resource type="PackedScene" path="res://scenes/components/StaminaComponent.tscn" id="3_p2r2k"]
+[ext_resource type="PackedScene" path="res://scenes/components/DashComponent.tscn" id="4_58avf"]
+[ext_resource type="PackedScene" path="res://scenes/components/ParticlesComponent.tscn" id="6_i7vxv"]
+[ext_resource type="PackedScene" path="res://scenes/components/VelocityComponent.tscn" id="7_hotwj"]
+[ext_resource type="PackedScene" uid="uid://d3ae5cfvyco6h" path="res://scenes/managers/PlayerCameraManager.tscn" id="8_ky0fa"]
+[ext_resource type="PackedScene" uid="uid://ddi0xppouubkw" path="res://scenes/managers/PlayerWeaponManager.tscn" id="8_wqoda"]
+[ext_resource type="Shader" path="res://assets/shaders/Speed.gdshader" id="9_v6yd2"]
+[ext_resource type="Shader" path="res://assets/shaders/Vignette.gdshader" id="10_8nhk3"]
+[ext_resource type="Texture2D" uid="uid://cjyk350pog0hg" path="res://assets/textures/pixelhart.png" id="13_n8o4k"]
+[ext_resource type="Texture2D" uid="uid://bpg0iopupl0k7" path="res://assets/textures/pixelightning.png" id="14_lgarf"]
+[ext_resource type="Shader" path="res://assets/shaders/ProgressOverlay.gdshader" id="15_bvwm7"]
+[ext_resource type="Script" path="res://misc/StaminaBar.cs" id="15_dbqv0"]
+[ext_resource type="Script" path="res://misc/HealthIcon.cs" id="17_b1fyi"]
+[ext_resource type="Texture2D" uid="uid://bcqokec3rrslx" path="res://assets/textures/lightning.png" id="18_dggx5"]
+[ext_resource type="Texture2D" uid="uid://ck7rjbc0upuip" path="res://assets/textures/Untitled-8.png" id="19_ffbo1"]
+[ext_resource type="PackedScene" uid="uid://by5aplf5hgou7" path="res://scenes/weapons/Pistol.tscn" id="19_qv6mu"]
+[ext_resource type="Shader" path="res://assets/shaders/VHSDistortion.gdshader" id="20_0jrbc"]
+[ext_resource type="PackedScene" uid="uid://dr3q156ctpyh6" path="res://scenes/misc/RunParticles.tscn" id="22_qynem"]
+[ext_resource type="PackedScene" uid="uid://3ucy8vck2m6y" path="res://scenes/misc/LandParticles.tscn" id="23_yn54c"]
+
+[sub_resource type="Animation" id="Animation_iajey"]
+resource_name = "Default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../SpeedOverlay/Speed:material:shader_parameter/line_density")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1.8025, 1),
+"update": 0,
+"values": [0.327, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_rox1a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../SpeedOverlay/Speed:material:shader_parameter/line_density")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2kdom"]
+_data = {
+"Default": SubResource("Animation_iajey"),
+"RESET": SubResource("Animation_rox1a")
+}
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6c43a"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dbjbc"]
+width = 1028
+height = 1028
+noise = SubResource("FastNoiseLite_6c43a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2mclo"]
+shader = ExtResource("9_v6yd2")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 2.0
+shader_parameter/line_density = 0.0
+shader_parameter/line_faloff = 1.0
+shader_parameter/mask_size = 0.0
+shader_parameter/mask_edge = 0.457
+shader_parameter/animation_speed = 44.128
+shader_parameter/noise = SubResource("NoiseTexture2D_dbjbc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nph4v"]
+shader = ExtResource("10_8nhk3")
+shader_parameter/vignette_intensity = 0.686
+shader_parameter/vignette_opacity = 0.366
+shader_parameter/vignette_rgb = Color(0.34902, 0.34902, 0.34902, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0aw8"]
+resource_name = "default"
+bg_color = Color(0, 0, 0, 0)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u73qy"]
+shader = ExtResource("15_bvwm7")
+shader_parameter/overlay_color = Color(1, 1, 1, 1)
+shader_parameter/progress = 0.69
+shader_parameter/strength = 1.0
+shader_parameter/x_axis = false
+
+[sub_resource type="Animation" id="Animation_3nn5v"]
+resource_name = "Damage"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.189464, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(2.07053, 2.07053, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0.392157), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5v0b3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Overlay:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Overlay:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qhpmg"]
+_data = {
+"Damage": SubResource("Animation_3nn5v"),
+"RESET": SubResource("Animation_5v0b3")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cvdvk"]
+shader = ExtResource("15_bvwm7")
+shader_parameter/overlay_color = Color(1, 1, 1, 1)
+shader_parameter/progress = 0.58
+shader_parameter/strength = 0.0
+shader_parameter/x_axis = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dau0s"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7q5q4"]
+bg_color = Color(1, 1, 1, 0.756863)
+
+[sub_resource type="Animation" id="Animation_37nph"]
+resource_name = "Appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.241484, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_67r1b"]
+resource_name = "Disappear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.210224, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_8twnj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_86uce"]
+_data = {
+"Appear": SubResource("Animation_37nph"),
+"Disappear": SubResource("Animation_67r1b"),
+"RESET": SubResource("Animation_8twnj")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gorr7"]
+shader = ExtResource("20_0jrbc")
+shader_parameter/shake = 0.015
+shader_parameter/noiseQuality = 250.0
+shader_parameter/noiseIntensity = 0.001
+shader_parameter/offsetIntensity = 0.0
+shader_parameter/colorOffsetIntensity = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_whkb8"]
+size = Vector3(1, 3, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sf8cf"]
+albedo_color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sf5dr"]
+material = SubResource("StandardMaterial3D_sf8cf")
+height = 3.0
+
+[sub_resource type="Curve" id="Curve_gnbcb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.153846, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_dpl5j"]
+curve = SubResource("Curve_gnbcb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b3vap"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(10, 6, 10)
+direction = Vector3(0.5, 0.5, 0.5)
+spread = 77.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_dpl5j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3eq7"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.219608, 0.219608, 0.219608, 0.32549)
+texture_filter = 0
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iaf58"]
+material = SubResource("StandardMaterial3D_p3eq7")
+size = Vector2(0.1, 0.1)
+orientation = 2
+
+[node name="PlayerEntity" type="CharacterBody3D"]
+collision_layer = 16
+script = ExtResource("1_gvphs")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_xioc4")]
+
+[node name="StaminaComponent" parent="." node_paths=PackedStringArray("restorationTimer") instance=ExtResource("3_p2r2k")]
+restorationTimer = NodePath("RestorationTimer")
+
+[node name="RestorationTimer" type="Timer" parent="StaminaComponent"]
+one_shot = true
+
+[node name="DashComponent" parent="." node_paths=PackedStringArray("playerCameraManager", "velocityComponent", "staminaComponent", "dashTimer", "dashAnimationPlayer") instance=ExtResource("4_58avf")]
+DashFov = 100.0
+playerCameraManager = NodePath("../PlayerCameraManager")
+velocityComponent = NodePath("../VelocityComponent")
+staminaComponent = NodePath("../StaminaComponent")
+dashTimer = NodePath("Timer")
+dashAnimationPlayer = NodePath("AnimationPlayer")
+
+[node name="Timer" type="Timer" parent="DashComponent"]
+wait_time = 0.1
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DashComponent"]
+libraries = {
+"": SubResource("AnimationLibrary_2kdom")
+}
+
+[node name="ParticlesComponent" parent="." node_paths=PackedStringArray("velocityComponent", "RunParticles", "LandParticles") instance=ExtResource("6_i7vxv")]
+velocityComponent = NodePath("../VelocityComponent")
+RunParticles = NodePath("../RunParticles")
+LandParticles = NodePath("../LandParticles")
+
+[node name="VelocityComponent" parent="." node_paths=PackedStringArray("staminaComponent", "healthComponent", "Gimbal") instance=ExtResource("7_hotwj")]
+staminaComponent = NodePath("../StaminaComponent")
+healthComponent = NodePath("../HealthComponent")
+Gimbal = NodePath("../Gimbal")
+Controllable = true
+
+[node name="PlayerWeaponManager" parent="." node_paths=PackedStringArray("WeaponOrigin", "CurrentWeapon", "WeaponCam", "playerCameraManager", "velocityComponent", "healthComponent") instance=ExtResource("8_wqoda")]
+WeaponOrigin = NodePath("../Gimbal/SecondGimbal/Camera/WeaponOrigin")
+CurrentWeapon = NodePath("../Gimbal/SecondGimbal/Camera/WeaponOrigin/Pistol")
+WeaponCam = NodePath("../WeaponViewOverlay/SubViewportContainer/SubViewport/WeaponCamGimbal/WeaponCamera")
+playerCameraManager = NodePath("../PlayerCameraManager")
+velocityComponent = NodePath("../VelocityComponent")
+healthComponent = NodePath("../HealthComponent")
+
+[node name="PlayerCameraManager" parent="." node_paths=PackedStringArray("velocityComponent", "healthComponent", "Gimbal", "ModificationGimbal", "Cam") instance=ExtResource("8_ky0fa")]
+velocityComponent = NodePath("../VelocityComponent")
+healthComponent = NodePath("../HealthComponent")
+Fov = 85.0
+Gimbal = NodePath("../Gimbal")
+ModificationGimbal = NodePath("../Gimbal/SecondGimbal")
+Cam = NodePath("../Gimbal/SecondGimbal/Camera")
+
+[node name="WeaponViewOverlay" type="CanvasLayer" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="WeaponViewOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="WeaponViewOverlay/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+canvas_cull_mask = 4294967293
+size = Vector2i(1366, 768)
+render_target_update_mode = 4
+
+[node name="WeaponCamGimbal" type="Node3D" parent="WeaponViewOverlay/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+
+[node name="WeaponCamera" type="Camera3D" parent="WeaponViewOverlay/SubViewportContainer/SubViewport/WeaponCamGimbal"]
+cull_mask = 2
+projection = 1
+
+[node name="SpeedOverlay" type="CanvasLayer" parent="."]
+
+[node name="Speed" type="ColorRect" parent="SpeedOverlay"]
+material = SubResource("ShaderMaterial_2mclo")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VignetteOverlay" type="CanvasLayer" parent="."]
+
+[node name="Vignette" type="ColorRect" parent="VignetteOverlay"]
+material = SubResource("ShaderMaterial_nph4v")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="InfoContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = -204.0
+offset_right = 130.0
+offset_bottom = -60.0
+grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="Health" type="HBoxContainer" parent="UI/InfoContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HealthPanel" type="Panel" parent="UI/InfoContainer/Health"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b0aw8")
+
+[node name="Overlay" type="TextureRect" parent="UI/InfoContainer/Health/HealthPanel"]
+self_modulate = Color(1, 1, 1, 0)
+show_behind_parent = true
+texture_filter = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(30, 30)
+texture = ExtResource("13_n8o4k")
+expand_mode = 2
+
+[node name="HealthIcon" type="TextureRect" parent="UI/InfoContainer/Health/HealthPanel" node_paths=PackedStringArray("healthComponent", "effectAnimationPlayer")]
+self_modulate = Color(0.109804, 0.109804, 0.109804, 1)
+texture_filter = 5
+material = SubResource("ShaderMaterial_u73qy")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(30, 30)
+texture = ExtResource("13_n8o4k")
+expand_mode = 2
+script = ExtResource("17_b1fyi")
+healthComponent = NodePath("../../../../../HealthComponent")
+effectAnimationPlayer = NodePath("../EffectAnimationPlayer")
+
+[node name="Shadow" type="TextureRect" parent="UI/InfoContainer/Health/HealthPanel/HealthIcon"]
+modulate = Color(0, 0, 0, 0.223529)
+show_behind_parent = true
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 65.0
+offset_bottom = 65.0
+texture = ExtResource("13_n8o4k")
+expand_mode = 2
+
+[node name="EffectAnimationPlayer" type="AnimationPlayer" parent="UI/InfoContainer/Health/HealthPanel"]
+libraries = {
+"": SubResource("AnimationLibrary_qhpmg")
+}
+speed_scale = 1.2
+
+[node name="Stamina" type="HBoxContainer" parent="UI/InfoContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="StaminaIcon" type="TextureRect" parent="UI/InfoContainer/Stamina"]
+texture_filter = 3
+layout_mode = 2
+texture = ExtResource("14_lgarf")
+expand_mode = 2
+
+[node name="Shadow" type="TextureRect" parent="UI/InfoContainer/Stamina/StaminaIcon"]
+modulate = Color(0, 0, 0, 0.223529)
+show_behind_parent = true
+texture_filter = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 15.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_dggx5")
+expand_mode = 2
+
+[node name="StaminaBar" type="Panel" parent="UI/InfoContainer/Stamina" node_paths=PackedStringArray("staminaComponent", "opacityAnimationPlayer")]
+self_modulate = Color(0.109804, 0.109804, 0.109804, 1)
+material = SubResource("ShaderMaterial_cvdvk")
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dau0s")
+script = ExtResource("15_dbqv0")
+staminaComponent = NodePath("../../../../StaminaComponent")
+opacityAnimationPlayer = NodePath("../OpacityAnimationPlayer")
+
+[node name="Shadow" type="Panel" parent="UI/InfoContainer/Stamina/StaminaBar"]
+modulate = Color(0, 0, 0, 0.223529)
+show_behind_parent = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -5.0
+offset_right = 55.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7q5q4")
+
+[node name="OpacityAnimationPlayer" type="AnimationPlayer" parent="UI/InfoContainer/Stamina"]
+libraries = {
+"": SubResource("AnimationLibrary_86uce")
+}
+autoplay = "RESET"
+speed_scale = 2.0
+
+[node name="ScreenBorder" type="NinePatchRect" parent="UI"]
+modulate = Color(1, 1, 1, 0.0470588)
+texture_filter = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_ffbo1")
+
+[node name="DistortionOverlay" type="CanvasLayer" parent="."]
+
+[node name="Distortion" type="ColorRect" parent="DistortionOverlay"]
+material = SubResource("ShaderMaterial_gorr7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CrosshairOverlay" type="CanvasLayer" parent="."]
+
+[node name="CrosshairContainer" type="CenterContainer" parent="CrosshairOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Control2" type="Control" parent="CrosshairOverlay/CrosshairContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CrosshairOverlay/CrosshairContainer/Control2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.5
+offset_top = -6.0
+offset_right = 6.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.360784)
+
+[node name="ColorRect2" type="ColorRect" parent="CrosshairOverlay/CrosshairContainer/Control2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = 1.5
+offset_right = 11.5
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.360784)
+
+[node name="Control" type="Control" parent="CrosshairOverlay/CrosshairContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CrosshairOverlay/CrosshairContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -10.0
+offset_right = 2.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.886275, 0.886275, 0.886275, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CrosshairOverlay/CrosshairContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -2.5
+offset_right = 7.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.886275, 0.886275, 0.886275, 1)
+
+[node name="PlayerCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_whkb8")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+layers = 8
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_sf5dr")
+
+[node name="Gimbal" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+
+[node name="SecondGimbal" type="Node3D" parent="Gimbal"]
+
+[node name="Camera" type="Camera3D" parent="Gimbal/SecondGimbal"]
+cull_mask = 1048569
+
+[node name="WeaponOrigin" type="Node3D" parent="Gimbal/SecondGimbal/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24039, -0.349075, -0.542)
+
+[node name="Pistol" parent="Gimbal/SecondGimbal/Camera/WeaponOrigin" node_paths=PackedStringArray("playerCameraManager") instance=ExtResource("19_qv6mu")]
+playerCameraManager = NodePath("../../../../../PlayerCameraManager")
+
+[node name="RunParticles" parent="." instance=ExtResource("22_qynem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.202879, 0)
+emitting = false
+
+[node name="LandParticles" parent="." instance=ExtResource("23_yn54c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.201601, 0)
+
+[node name="AmbientParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.31127, 0)
+cast_shadow = 0
+amount = 100
+lifetime = 2.0
+randomness = 0.29
+visibility_aabb = AABB(-5.72704, -3.48507, -7.13238, 11.4541, 6.97014, 14.2648)
+process_material = SubResource("ParticleProcessMaterial_b3vap")
+draw_pass_1 = SubResource("PlaneMesh_iaf58")

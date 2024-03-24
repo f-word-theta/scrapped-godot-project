@@ -1,0 +1,283 @@
+[gd_scene load_steps=14 format=3 uid="uid://by5aplf5hgou7"]
+
+[ext_resource type="Script" path="res://scenes/weapons/Pistol.cs" id="1_6ahru"]
+[ext_resource type="Resource" uid="uid://dim61eahg8n5w" path="res://resources/RangedWeaponStats.tres" id="2_ne6wi"]
+[ext_resource type="Texture2D" uid="uid://y1dyf2udplss" path="res://assets/textures/sprites/frame0.png" id="3_jeyww"]
+[ext_resource type="Texture2D" uid="uid://bottl8ly6ddfi" path="res://assets/textures/sprites/frame1.png" id="4_8im4g"]
+[ext_resource type="Texture2D" uid="uid://q7vsow7kp1kd" path="res://assets/textures/sprites/frame2.png" id="5_6ffje"]
+[ext_resource type="Texture2D" uid="uid://cey520sh3d24t" path="res://assets/textures/sprites/frame3.png" id="6_u8umn"]
+[ext_resource type="Texture2D" uid="uid://wsuqt520wfhb" path="res://assets/textures/sprites/frame4.png" id="7_xuy47"]
+[ext_resource type="Texture2D" uid="uid://de7oqvdv0sdh2" path="res://assets/textures/boom.png" id="8_o72ck"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c6tmm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jeyww")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.1,
+"texture": ExtResource("4_8im4g")
+}, {
+"duration": 0.3,
+"texture": ExtResource("5_6ffje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_u8umn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xuy47")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jeyww")
+}],
+"loop": false,
+"name": &"primary_fire",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_kjkul"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite3D/BoomSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite3D:shaded")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedSprite3D/OmniLight3D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimatedSprite3D/BoomSprite:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.905882)]
+}
+
+[sub_resource type="Animation" id="Animation_d0fjh"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_v4ldg"]
+resource_name = "primary_fire"
+length = 0.7
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"primary_fire"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.12, 0.19, 0.33),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite3D/BoomSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.03, 0.04, 0.17),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite3D:shaded")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.03, 0.04, 0.07),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedSprite3D/OmniLight3D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.03, 0.04, 0.07),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.04),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"RandomizeBoomSprite"
+}, {
+"args": [],
+"method": &"Shake"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimatedSprite3D/BoomSprite:modulate")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.03, 0.04, 0.15),
+"transitions": PackedFloat32Array(1, 0.615572, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.905882), Color(1, 1, 1, 0.905882), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nvqs6"]
+_data = {
+"RESET": SubResource("Animation_kjkul"),
+"idle": SubResource("Animation_d0fjh"),
+"primary_fire": SubResource("Animation_v4ldg")
+}
+
+[node name="Pistol" type="Node3D" node_paths=PackedStringArray("animationPlayer", "boomSprite")]
+script = ExtResource("1_6ahru")
+animationPlayer = NodePath("AnimationPlayer")
+boomSprite = NodePath("AnimatedSprite3D/BoomSprite")
+weaponStats = ExtResource("2_ne6wi")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 0.122004, 0)
+layers = 2
+shaded = true
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_c6tmm")
+animation = &"idle"
+speed_scale = 1.5
+
+[node name="BoomSprite" type="Sprite3D" parent="AnimatedSprite3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -1.33384, 1.50827, -0.079465)
+visible = false
+layers = 2
+sorting_offset = -1.0
+modulate = Color(1, 1, 1, 0.905882)
+texture_filter = 0
+texture = ExtResource("8_o72ck")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="AnimatedSprite3D"]
+visible = false
+light_energy = 2.0
+shadow_enabled = true
+shadow_blur = 0.0
+omni_range = 10.0
+omni_attenuation = 0.216189
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_nvqs6")
+}
+autoplay = "primary_fire"

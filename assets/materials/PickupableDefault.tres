@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/Outline.gdshader" id="1_y086v"]
+
+[resource]
+render_priority = 127
+shader = ExtResource("1_y086v")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/luma_coef = 0.1
+shader_parameter/color_coef = 0.1
+shader_parameter/depth_coef = 3.0
+shader_parameter/cutoff = 2.0

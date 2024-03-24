@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="MeleeWeaponStats" load_steps=2 format=3 uid="uid://c7mj2hghnw4jb"]
+
+[ext_resource type="Script" path="res://resources/MeleeWeaponStats.cs" id="1_58hyh"]
+
+[resource]
+script = ExtResource("1_58hyh")

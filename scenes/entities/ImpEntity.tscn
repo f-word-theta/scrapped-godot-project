@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://crn48xnwwo1ux"]
+
+[ext_resource type="PackedScene" uid="uid://bnpjkd7f7lcj" path="res://scenes/components/DetectionAreaComponent.tscn" id="1_euqy3"]
+[ext_resource type="FontFile" uid="uid://erdgllynwqkw" path="res://examples_dd3d/Roboto-Bold.ttf" id="1_ujets"]
+[ext_resource type="PackedScene" uid="uid://bnm4ppgvfvk83" path="res://scenes/fsm/StateMachine.tscn" id="2_64nlc"]
+[ext_resource type="Script" path="res://scenes/fsm/WanderState.cs" id="3_oc1h0"]
+[ext_resource type="Script" path="res://scenes/fsm/IdleState.cs" id="4_yg6o6"]
+[ext_resource type="PackedScene" path="res://scenes/components/VelocityComponent.tscn" id="5_cd1ot"]
+[ext_resource type="PackedScene" uid="uid://cmf4gfft4euwd" path="res://scenes/components/DirectionalSpriteComponent.tscn" id="6_5bf6g"]
+[ext_resource type="PackedScene" path="res://scenes/components/HealthComponent.tscn" id="6_h1a38"]
+[ext_resource type="Script" path="res://scenes/fsm/ChaseState.cs" id="8_ma8k4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p72in"]
+radius = 100.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ric3h"]
+radius = 1.5
+height = 4.5
+
+[node name="ImpEntity" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="ImpLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+layers = 3
+light_energy = 0.5
+light_size = 1.0
+light_specular = 0.0
+shadow_enabled = true
+shadow_blur = 0.0
+omni_range = 10.0
+omni_attenuation = 0.000198305
+
+[node name="DetectionAreaComponent" parent="." instance=ExtResource("1_euqy3")]
+collision_mask = 16
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionAreaComponent"]
+visible = false
+shape = SubResource("SphereShape3D_p72in")
+
+[node name="DirectionalSpriteComponent" parent="." instance=ExtResource("6_5bf6g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39323, 0)
+pixel_size = 0.075
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_cd1ot")]
+MaxAcceleration = 4.0
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("healthLabel") instance=ExtResource("6_h1a38")]
+healthLabel = NodePath("../HealthLabel")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("stateLabel", "CurrentState") instance=ExtResource("2_64nlc")]
+stateLabel = NodePath("../StateLabel")
+CurrentState = NodePath("IdleState")
+
+[node name="WanderState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idleState", "velocityComponent")]
+script = ExtResource("3_oc1h0")
+idleState = NodePath("../IdleState")
+velocityComponent = NodePath("../../VelocityComponent")
+
+[node name="IdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("directionalSpriteComponent", "velocityComponent", "detectionAreaComponent", "wanderState", "chaseState")]
+script = ExtResource("4_yg6o6")
+directionalSpriteComponent = NodePath("../../DirectionalSpriteComponent")
+velocityComponent = NodePath("../../VelocityComponent")
+detectionAreaComponent = NodePath("../../DetectionAreaComponent")
+wanderState = NodePath("../WanderState")
+chaseState = NodePath("../ChaseState")
+
+[node name="ChaseState" type="Node" parent="StateMachine" node_paths=PackedStringArray("directionalSpriteComponent", "detectionAreaComponent", "velocityComponent", "idleState")]
+script = ExtResource("8_ma8k4")
+directionalSpriteComponent = NodePath("../../DirectionalSpriteComponent")
+detectionAreaComponent = NodePath("../../DetectionAreaComponent")
+velocityComponent = NodePath("../../VelocityComponent")
+idleState = NodePath("../IdleState")
+
+[node name="StateLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.48804, 0)
+visible = false
+billboard = 1
+modulate = Color(1, 1, 1, 0.188235)
+outline_modulate = Color(0, 0, 0, 0)
+text = "State"
+font = ExtResource("1_ujets")
+font_size = 100
+
+[node name="HealthLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.01347, 0)
+visible = false
+billboard = 1
+modulate = Color(1, 1, 1, 0.188235)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Health
+"
+font = ExtResource("1_ujets")
+font_size = 100
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+shape = SubResource("CapsuleShape3D_ric3h")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://d07v4vvxsrqhm"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_ev6at"]
+script/source = "using Godot;
+using System;
+
+public partial class HudComponent : Node
+{
+	
+}
+"
+
+[node name="HudComponent" type="Node"]
+script = SubResource("CSharpScript_ev6at")
